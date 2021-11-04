@@ -141,12 +141,19 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="olcPGE.h" />
-    <ClInclude Include="ScreenContainer.h" />
+    <ClInclude Include="Simulation.h" />
+    <ClInclude Include="SimulationElement.h" />
+    <ClInclude Include="UIButton.h" />
+    <ClInclude Include="UIScreenContainer.h" />
+    <ClInclude Include="System.h" />
     <ClInclude Include="UIElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="ScreenContainer.cpp" />
+    <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="SimulationElement.cpp" />
+    <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIScreenContainer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

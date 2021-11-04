@@ -1,18 +1,18 @@
-#include "ScreenContainer.h"
+#include "UIScreenContainer.h"
 
-ScreenContainer::ScreenContainer(olc::vi2d position, olc::vi2d size) : UIElement(position, size) {
-
-}
-
-ScreenContainer::ScreenContainer(olc::vi2d position, olc::vi2d size, UIElement* parent) : UIElement(position, size, parent) {
+UIScreenContainer::UIScreenContainer(olc::vi2d position, olc::vi2d size) : UIScreenContainer(position, size, NULL) {
 
 }
 
-void ScreenContainer::Destroy() {
+UIScreenContainer::UIScreenContainer(olc::vi2d position, olc::vi2d size, UIElement* parent) : UIElement(position, size, parent) {
+
+}
+
+void UIScreenContainer::Destroy() {
 	
 }
 
-void ScreenContainer::Update(olc::PixelGameEngine* engine, float fElapsedTime)
+void UIScreenContainer::Update(olc::PixelGameEngine* engine, float fElapsedTime)
 {
 	olc::vi2d draw_position = GetScreenPosition();
 

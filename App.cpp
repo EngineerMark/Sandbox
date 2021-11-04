@@ -7,14 +7,20 @@ App::App()
 
 bool App::OnUserCreate()
 {
-	windowContainer = new ScreenContainer({0,0}, {ScreenWidth(), ScreenHeight()});
+	windowContainer = new UIScreenContainer({ 0,0 }, { ScreenWidth(), ScreenHeight() });
 	windowContainer->draw_border = FALSE;
 	windowContainer->draw_background = FALSE;
 
-	sandboxContainer = new ScreenContainer({ 2, 10 }, { ScreenWidth() - 40, ScreenHeight() - 2 - 10 }, windowContainer);
+	sandboxContainer = new UIScreenContainer({ 2, 10 }, { ScreenWidth() - 40, ScreenHeight() - 2 - 10 }, windowContainer);
 
-	pixelPickerContainer = new ScreenContainer({ ScreenWidth() - 40 + 6, 2 }, { 32, ScreenHeight() - 4 }, windowContainer);
+	pixelPickerContainer = new UIScreenContainer({ ScreenWidth() - 40 + 6, 2 }, { 32, ScreenHeight() - 4 }, windowContainer);
 	pixelPickerContainer->background_color = olc::DARK_GREY;
+
+	//test
+	UIButton* test_button = new UIButton({ 0,0 }, { pixelPickerContainer->size.x / 2,20 }, pixelPickerContainer);
+	test_button->btn_container->background_color = olc::GREEN;
+
+	simulator = new Simulation(sandboxContainer);
 
 	return true;
 }
@@ -31,10 +37,14 @@ bool App::OnUserDestroy() {
 bool App::OnUserUpdate(float fElapsedTime)
 {
 	FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::BLACK);
-	DrawString({1,1}, "Sandbox | CPU: 0%", olc::WHITE);
 
-	if(windowContainer!=NULL)
+	std::string debug_str = IsDebugMode() ? "(DEBUG) " : "";
+	DrawString({ 1,1 }, debug_str + "Sandbox | " + GetMousePos().str() + " | " + std::to_string(simulator->existing_particles.size()) + " particles", olc::WHITE);
+
+	if (windowContainer != NULL)
 		windowContainer->Update(this, fElapsedTime);
+
+	simulator->Update(this, fElapsedTime);
 
 	return true;
 }

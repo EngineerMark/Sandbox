@@ -5,20 +5,24 @@
 #define OLC_PGE_APPLICATION
 #include "olcPGE.h"
 
-#include "ScreenContainer.h"
+#include "Simulation.h"
+#include "UIScreenContainer.h"
+#include "UIButton.h"
 
 class App : public olc::PixelGameEngine
 {
 public:
-	const int S_WIDTH = 1280;
-	const int S_HEIGHT = 720;
+	const int S_WIDTH = 800;
+	const int S_HEIGHT = 600;
 	const int S_PIXELSIZE = 2;
 
 	App();
 private:
-	ScreenContainer* windowContainer; //our full window
-	ScreenContainer* sandboxContainer; //contains the pixels/simulator
-	ScreenContainer* pixelPickerContainer; //contains list of simulation pixels
+	UIScreenContainer* windowContainer; //our full window
+	UIScreenContainer* sandboxContainer; //contains the pixels/simulator
+	UIScreenContainer* pixelPickerContainer; //contains list of simulation pixels
+
+	Simulation* simulator;
 
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float fElapsedTime) override;
