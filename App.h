@@ -8,12 +8,13 @@
 class App : public olc::PixelGameEngine
 {
 public:
-	const int S_WIDTH = 1600;
-	const int S_HEIGHT = 900;
-	const int S_PIXELSIZE = 4;
+	const int S_WIDTH = 1280;
+	const int S_HEIGHT = 720;
+	const int S_PIXELSIZE = 2;
 
 	App();
 private:
+	ScreenContainer* windowContainer; //our full window
 	ScreenContainer* sandboxContainer; //contains the pixels/simulator
 	ScreenContainer* pixelPickerContainer; //contains list of simulation pixels
 
