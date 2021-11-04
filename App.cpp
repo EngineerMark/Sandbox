@@ -11,7 +11,7 @@ bool App::OnUserCreate()
 	windowContainer->draw_border = FALSE;
 	windowContainer->draw_background = FALSE;
 
-	sandboxContainer = new ScreenContainer({ 2, 10 }, { ScreenWidth() - 40, ScreenHeight() - 4 - 10 }, windowContainer);
+	sandboxContainer = new ScreenContainer({ 2, 10 }, { ScreenWidth() - 40, ScreenHeight() - 2 - 10 }, windowContainer);
 
 	pixelPickerContainer = new ScreenContainer({ ScreenWidth() - 40 + 6, 2 }, { 32, ScreenHeight() - 4 }, windowContainer);
 	pixelPickerContainer->background_color = olc::DARK_GREY;
@@ -31,7 +31,7 @@ bool App::OnUserDestroy() {
 bool App::OnUserUpdate(float fElapsedTime)
 {
 	FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::BLACK);
-	DrawString({1,1}, "Sandbox", olc::WHITE);
+	DrawString({1,1}, "Sandbox | CPU: 0%", olc::WHITE);
 
 	if(windowContainer!=NULL)
 		windowContainer->Update(this, fElapsedTime);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "System.h"
+
 #define OLC_PGE_APPLICATION
 #include "olcPGE.h"
 
