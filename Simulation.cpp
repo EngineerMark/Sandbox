@@ -3,6 +3,41 @@
 Simulation::Simulation(UIScreenContainer* simulation_container)
 {
 	this->simulation_container = simulation_container;
+
+	int x = this->simulation_container->size.x;
+	int y = this->simulation_container->size.y;
+
+	for (size_t i = 0; i < x; i++)
+	{
+		std::vector<SimulationElement*> v;
+		for (size_t j = 0; j < y; j++)
+		{
+			//SimulationElement* p = new SimulationElement();
+			SimulationElement* p = GetParticlePrefab();
+			p->draw_element = false;
+			v.push_back(p);
+		}
+		existing_particles.push_back(v);
+	}
+
+	//*existing_particles[20][20] = new SimulationElement();
+	existing_particles[20][20]->color = olc::GREEN;
+}
+
+void Simulation::Stop() {
+	int size_x = existing_particles.size();
+	int size_y = existing_particles[0].size();
+
+	for (size_t x = 0; x < size_x; x++)
+	{
+		for (size_t y = 0; y < size_y; y++)
+		{
+			delete existing_particles[x][y];
+			existing_particles[x][y] = NULL;
+		}
+	}
+
+	existing_particles.erase(existing_particles.begin(), existing_particles.end());
 }
 
 void Simulation::Update(olc::PixelGameEngine* engine, float fElapsedTime)
@@ -16,12 +51,23 @@ void Simulation::Update(olc::PixelGameEngine* engine, float fElapsedTime)
 		(mouse_pos.y < screen_pos_end.y)) {
 		//engine->FillRect(screen_pos_start, simulation_container->size, olc::GREEN);
 		if (engine->GetMouse(0).bHeld) {
-			InsertParticle(mouse_pos, new SimulationElement());
+			SimulationElement* p = GetParticlePrefab();
+			p->draw_element = true;
+			p->color = olc::RED;
+			InsertParticle(mouse_pos - screen_pos_start, p);
 		}
 	}
 
 	if (existing_particles.size() > 0) {
-		for (auto current_particle : existing_particles) {
+		for (size_t i = 0; i < existing_particles.size(); i++)
+		{
+			for (size_t j = 0; j < existing_particles[i].size(); j++)
+			{
+				SimulationElement* p = existing_particles[i][existing_particles[i].size() - j - 1];
+			}
+		}
+
+		/*for (auto current_particle : existing_particles) {
 			current_particle->position.y += 0.1;
 		}
 
@@ -56,9 +102,9 @@ void Simulation::Update(olc::PixelGameEngine* engine, float fElapsedTime)
 					p->position.y = screen_pos_start.y;
 			}
 			break;
-		}
+		}*/
 
-		existing_particles.erase(std::remove_if(
+		/*existing_particles.erase(std::remove_if(
 			existing_particles.begin(), existing_particles.end(),
 			[](const SimulationElement* x) {
 				if (x->marked_for_deletion) {
@@ -67,25 +113,39 @@ void Simulation::Update(olc::PixelGameEngine* engine, float fElapsedTime)
 				}
 				return false;
 			}
-		), existing_particles.end());
+		), existing_particles.end());*/
 
-		for (auto p : existing_particles) {
+
+		/*for (auto p : existing_particles) {
 			engine->Draw(p->GetPosition(), p->color);
+		}*/
+		for (size_t x = 0; x < existing_particles.size(); x++)
+		{
+			for (size_t y = 0; y < existing_particles[0].size(); y++)
+			{
+				olc::vi2d pos = { (int)x, (int)y };
+				SimulationElement* p = existing_particles[x][y];
+				if (p->draw_element)
+					engine->Draw(screen_pos_start + pos, p->color);
+			}
 		}
 	}
 }
 
 void Simulation::InsertParticle(olc::vi2d position, SimulationElement* particle)
 {
-	for (auto p : existing_particles)
+	/*for (auto p : existing_particles)
 		if (p->GetPosition() == position)
-			return;
+			return;*/
+			/*if (existing_particles[position.x][position.y] != element_air)
+				return;*/
 
-	existing_particles.push_back(particle);
-	particle->position = position;
+				//existing_particles.push_back(particle);
+	existing_particles[position.x][position.y] = particle;
 }
 
-bool Simulation::IsParticleOutOfBounds(SimulationElement* particle)
-{
-	return (particle->GetPosition().x < 0 || particle->GetPosition().y < 0 || particle->GetPosition().x > simulation_container->size.x || particle->GetPosition().y > simulation_container->size.y);
-}
+//bool Simulation::IsParticleOutOfBounds(SimulationElement* particle)
+//{
+//	return IsOutOfBounds(particle->GetPosition(), { 0,0 }, simulation_container->size);
+//	//return (particle->GetPosition().x < 0 || particle->GetPosition().y < 0 || particle->GetPosition().x > simulation_container->size.x || particle->GetPosition().y > simulation_container->size.y);
+//}

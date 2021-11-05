@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Helper.h" />
     <ClInclude Include="olcPGE.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="SimulationElement.h" />

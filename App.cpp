@@ -28,8 +28,10 @@ bool App::OnUserCreate()
 bool App::OnUserDestroy() {
 	//performs the delete on all child objects for you
 	windowContainer->Destroy();
-
 	delete windowContainer;
+
+	simulator->Stop();
+	delete simulator;
 
 	return true;
 }
@@ -39,7 +41,7 @@ bool App::OnUserUpdate(float fElapsedTime)
 	FillRect(0, 0, ScreenWidth(), ScreenHeight(), olc::BLACK);
 
 	std::string debug_str = IsDebugMode() ? "(DEBUG) " : "";
-	DrawString({ 1,1 }, debug_str + "Sandbox | " + GetMousePos().str() + " | " + std::to_string(simulator->existing_particles.size()) + " particles", olc::WHITE);
+	DrawString({ 1,1 }, debug_str + "Sandbox | " + GetMousePos().str() + " | " + std::to_string(simulator->GetParticleCount()) + " particles", olc::WHITE);
 
 	if (windowContainer != NULL)
 		windowContainer->Update(this, fElapsedTime);
